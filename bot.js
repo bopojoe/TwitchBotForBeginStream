@@ -10,6 +10,8 @@ const stealers = require("./commands/stealers.js")
 const getinfo = require("./commands/getInfo.js")
 const mostliked = require("./commands/mostLiked.js")
 const richest = require("./commands/richest.js")
+const commandcost = require("./commands/commandCost.js")
+const blackmarket = require("./blackmarket.js")
 
 
 
@@ -46,22 +48,36 @@ client.connect();
 function onMessageHandler(target, context, msg, self) {
   msg = msg.toLowerCase()
   if (self) { return; } // Ignore messages from the bot
+  var msgContents = msg.split(" ")
 
-
-  if (msg.startsWith("!!public")) {
-    publicCommands(client, target, context, msg, self)
+  switch (msgContents[0]) {
+    case "!!public":
+      publicCommands(client, target, context, msg, self)
+      break;
+    case "!!getinfo":
+      getinfo(client, target, context, msg, self)
+      break;
+    case "!!stealers":
+      stealers(client, target, context, msg, self)
+      break;
+    case "!!mostliked":
+      mostliked(client, target, context, msg, self)
+      break;
+    case "!!commandcost":
+      var cost = commandcost(client, target, context, msg, self)
+      client.say(target, `@${context.username} that command costs ${cost}`)
+      break;
+    case "!props":
+      if (msgContents.length > 1) {
+        if (msgContents[1] === "cykablondesbot") {
+          blackmarket(client, target, context, msg, self, msgContents)
+        }
+      }
+      break;
+    default:
   }
 
-  if (msg.startsWith("!!getinfo")) {
-    getinfo(client, target, context, msg, self)
-  }
-  if (msg.includes("!!stealers")) {
-    stealers(client, target, context, msg, self)
-  }
 
-  if (msg.startsWith("!!mostliked")) {
-    mostliked(client, target, context, msg, self)
-  }
 
   if (msg.startsWith("!revolution")) {
     coup[context.username] = "rev"
