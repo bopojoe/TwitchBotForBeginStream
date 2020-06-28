@@ -1,10 +1,11 @@
-require('dotenv').config()
+//require('dotenv').config() //for dev use
 const tmi = require('tmi.js');
 const fetch = require('node-fetch');
 const exCubeTimes = require('./cubeTimes.json')
 var cubeTimes = exCubeTimes.times || [];
 const publicCommands = require("./publicCommands.js")
 var fs = require('fs');
+
 
 
 
