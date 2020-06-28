@@ -1,0 +1,57 @@
+const sortObj = require("../utils/sortobj.js")
+const fetch = require('node-fetch');
+
+module.exports = (client, target, context, msg, self) => {
+    let url = 'https://mygeoangelfirespace.city/db/rap_sheet.json';
+    var outputStr = "The biggest stealers are:"
+
+    fetch(url)
+        .then(res => res.json())
+        .then((out) => {
+            // console.log('Checkout this JSON! ', out);
+            var data = out
+
+            var { rap_sheet } = data
+            var usrobj = Object.values(rap_sheet)
+            var userarray = new Array(usrobj);
+            var rodobj = {}
+
+
+            userarray.forEach(item => {
+                item.forEach(obj => {
+                    var { user } = obj
+
+                    if (user != null) {
+                        var current = user
+                        if (!(current in rodobj)) {
+                            rodobj[current] = 0
+                        }
+                        rodobj[current] += 1
+                    }
+
+                })
+            });
+
+            var limit = 5;
+            var outputobj = {}
+
+            rodobj = sortObj(rodobj, 50);
+
+            Object.entries(rodobj).forEach(([key, value]) => {
+                if (limit > 0) {
+                    outputobj[key] = value;
+                    outputStr += ` ${key} : ${value} |`
+                    limit -= 1
+                }
+
+            });
+
+            console.log(outputStr);
+            client.say(target, outputStr);
+            outputStr = "The biggest stealers are:"
+        })
+        .catch(err => { console.error(err) })
+
+}
+
+

@@ -3,8 +3,13 @@ const tmi = require('tmi.js');
 const fetch = require('node-fetch');
 const exCubeTimes = require('./cubeTimes.json')
 var cubeTimes = exCubeTimes.times || [];
-const publicCommands = require("./publicCommands.js")
+const publicCommands = require("./commands/publicCommands.js")
 var fs = require('fs');
+const sortObj = require("./utils/sortobj.js")
+const stealers = require("./commands/stealers.js")
+const getinfo = require("./commands/getInfo.js")
+const mostliked = require("./commands/mostLiked.js")
+const richest = require("./commands/richest.js")
 
 
 
@@ -28,17 +33,7 @@ const opts = {
 const client = new tmi.client(opts);
 var outputStr = "Top 5 most liked users are:"
 
-function sortObj(obj) {
-  var finalObj = {}
-  for (i = 50; i > 0; i--) {
-    Object.entries(obj).forEach(([key, value]) => {
-      if (value === i) {
-        finalObj[key] = value;
-      }
-    })
-  }
-  return finalObj;
-}
+
 
 // Register our event handlers (defined below)
 client.on('message', onMessageHandler);
@@ -52,186 +47,20 @@ function onMessageHandler(target, context, msg, self) {
   msg = msg.toLowerCase()
   if (self) { return; } // Ignore messages from the bot
 
-  publicCommands(client, target, context, msg, self)
-  // if (msg.startsWith("!!public")) {
-  //   client.say(target, "Current Public commands are: !!public - shows public commands | !!getinfo - shows data from db 'users' site");
-  // }
+
+  if (msg.startsWith("!!public")) {
+    publicCommands(client, target, context, msg, self)
+  }
 
   if (msg.startsWith("!!getinfo")) {
-    var strings = msg.split(" ")
-    if (strings.length > 1) {
-      var requestedUser = strings[1].toLowerCase()
-
-      let url = 'https://mygeoangelfirespace.city/db/users.json';
-
-      fetch(url)
-        .then(res => res.json())
-        .then((out) => {
-          // console.log('Checkout this JSON! ', out);
-          var data = out
-
-          var { users } = data
-          var usrobj = Object.values(users)
-          var userarray = new Array(usrobj);
-          var highest = ""
-          var points = 0
-          var sounds = 0
-          var cred = 0
-
-          userarray.forEach(item => {
-            item.forEach(obj => {
-              var { name, cool_points, street_cred } = obj
-              if (name === requestedUser) {
-                highest = name;
-                points = cool_points;
-                cred = street_cred;
-              }
-            })
-          });
-          fetch("https://mygeoangelfirespace.city/db/commands.json")
-            .then(res => res.json())
-            .then((out) => {
-              // console.log('Checkout this JSON! ', out);
-              var data = out
-
-              var { commands } = data
-              var cmdobj = Object.values(commands)
-              var commandarray = new Array(cmdobj);
-
-
-              commandarray.forEach(item => {
-                item.forEach(obj => {
-                  var { permitted_users } = obj
-                  if (permitted_users.includes(requestedUser)) {
-                    sounds += 1;
-                  }
-                })
-              });
-              console.log("tested")
-
-              var val = `${highest} | coolpoints: ${points} | sounds: ${sounds} | Street Cred: ${cred} |`
-              client.say(target, val);
-            })
-            .catch(err => { console.error(err) })
-          // client.say(target, "tested");
-
-
-        })
-        .catch(err => { console.error(err) })
-      // client.say(target, "tested");
-      console.log("tested")
-    } else {
-      client.say(target, "To use this command please say !!getinfo name");
-    }
+    getinfo(client, target, context, msg, self)
   }
   if (msg.includes("!!stealers")) {
-    let url = 'https://mygeoangelfirespace.city/db/rap_sheet.json';
-    var outputStr = "The biggest stealers are:"
-
-    fetch(url)
-      .then(res => res.json())
-      .then((out) => {
-        // console.log('Checkout this JSON! ', out);
-        var data = out
-
-        var { rap_sheet } = data
-        var usrobj = Object.values(rap_sheet)
-        var userarray = new Array(usrobj);
-        var rodobj = {}
-
-
-        userarray.forEach(item => {
-          item.forEach(obj => {
-            var { user } = obj
-
-            if (user != null) {
-              var current = user
-              if (!(current in rodobj)) {
-                rodobj[current] = 0
-              }
-              rodobj[current] += 1
-            }
-
-          })
-        });
-
-        var limit = 15;
-        var outputobj = {}
-
-        rodobj = sortObj(rodobj);
-
-        Object.entries(rodobj).forEach(([key, value]) => {
-          if (limit > 0) {
-            outputobj[key] = value;
-            outputStr += ` ${key} : ${value} |`
-            limit -= 1
-          }
-
-        });
-
-        console.log(outputStr);
-        client.say(target, outputStr);
-        outputStr = "the biggest stealers are:"
-      })
-      .catch(err => { console.error(err) })
-
-    console.log("tested")
+    stealers(client, target, context, msg, self)
   }
 
   if (msg.startsWith("!!mostliked")) {
-
-    let url = 'https://mygeoangelfirespace.city/db/users.json';
-
-
-    fetch(url)
-      .then(res => res.json())
-      .then((out) => {
-        // console.log('Checkout this JSON! ', out);
-        var data = out
-
-        var { users } = data
-        var usrobj = Object.values(users)
-        var userarray = new Array(usrobj);
-        var rodobj = {}
-
-
-        userarray.forEach(item => {
-          item.forEach(obj => {
-            var { ride_or_die } = obj
-
-            if (ride_or_die != null) {
-              var current = ride_or_die
-              if (!(current in rodobj)) {
-                rodobj[current] = 0
-              }
-              rodobj[current] += 1
-            }
-
-          })
-        });
-
-        var limit = 5;
-        var outputobj = {}
-
-        rodobj = sortObj(rodobj);
-
-        Object.entries(rodobj).forEach(([key, value]) => {
-          if (limit > 0) {
-            outputobj[key] = value;
-            outputStr += ` ${key} : ${value} |`
-            limit -= 1
-          }
-
-        });
-
-        //console.log(outputStr);
-        client.say(target, outputStr);
-
-        outputStr = "Top 5 most liked users are:"
-      })
-      .catch(err => { console.error(err) })
-    // client.say(target, "tested");
-    console.log("tested")
+    mostliked(client, target, context, msg, self)
   }
 
   if (msg.startsWith("!revolution")) {
@@ -330,37 +159,7 @@ function onMessageHandler(target, context, msg, self) {
     }
 
     if (msg.includes("!!richest")) {
-      let url = 'https://mygeoangelfirespace.city/db/users.json';
-
-      fetch(url)
-        .then(res => res.json())
-        .then((out) => {
-          // console.log('Checkout this JSON! ', out);
-          var data = out
-
-          var { users } = data
-          var usrobj = Object.values(users)
-          var userarray = new Array(usrobj);
-          var highest = ""
-          var points = 0
-
-          userarray.forEach(item => {
-            var { name } = item;
-
-            item.forEach(obj => {
-              var { name, cool_points } = obj
-              if (cool_points > points) {
-                highest = name;
-                points = cool_points;
-              }
-            })
-          });
-          var val = `${highest} has the most coolpoints with ${points}`
-          client.say(target, val);
-        })
-        .catch(err => { console.error(err) })
-      // client.say(target, "tested");
-      console.log("tested")
+      richest(client, target, context, msg, self)
     }
     if (msg.includes("!!bopojoe")) {
       let url = 'https://mygeoangelfirespace.city/db/users.json';
@@ -449,6 +248,7 @@ function onConnectedHandler(addr, port) {
 
 
 const readline = require('readline');
+
 
 const rl = readline.createInterface({
   input: process.stdin,
