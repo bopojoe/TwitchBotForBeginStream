@@ -5,7 +5,8 @@
   "main": "bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "set NODE_ENV=dev&& node bot.js"
+    "start": "node bot.js",
+    "start-dev": "set NODE_ENV=dev&& node bot.js"
   },
   "repository": {
     "type": "git",
