@@ -116,7 +116,7 @@ function onMessageHandler(target, context, msg, self) {
 
 
   // Remove whitespace from chat message
-  var commandName = msg.startsWith("!!!cykaSay");
+  var commandName = msg.startsWith("!!cykasay");
   var { username, mod, } = context
 
   if (commandName && username === "bopojoe_") {
