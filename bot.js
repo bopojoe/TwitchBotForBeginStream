@@ -1,22 +1,35 @@
+require('dotenv').config()
 const tmi = require('tmi.js');
-const opts = require('./opts.js')
 const fetch = require('node-fetch');
 const exCubeTimes = require('./cubeTimes.json')
 var cubeTimes = exCubeTimes.times || [];
+const publicCommands = require("./publicCommands.js")
 var fs = require('fs');
+
 
 
 var chatTarget = "bopojoe_";
 
 var coup = []
 
+const opts = {
+  identity: {
+    username: process.env.USERNAME,
+    password: process.env.PASSWORD
+  },
+  channels: [
+
+    "bopojoe_",
+    "beginbot"
+  ]
+};
 
 const client = new tmi.client(opts);
 var outputStr = "Top 5 most liked users are:"
 
 function sortObj(obj) {
   var finalObj = {}
-  for (i = 10; i > 0; i--) {
+  for (i = 50; i > 0; i--) {
     Object.entries(obj).forEach(([key, value]) => {
       if (value === i) {
         finalObj[key] = value;
@@ -38,9 +51,10 @@ function onMessageHandler(target, context, msg, self) {
   msg = msg.toLowerCase()
   if (self) { return; } // Ignore messages from the bot
 
-  if (msg.startsWith("!!public")) {
-    client.say(target, "Current Public commands are: !!public - shows public commands | !!getinfo - shows data from db 'users' site");
-  }
+  publicCommands(client, target, context, msg, self)
+  // if (msg.startsWith("!!public")) {
+  //   client.say(target, "Current Public commands are: !!public - shows public commands | !!getinfo - shows data from db 'users' site");
+  // }
 
   if (msg.startsWith("!!getinfo")) {
     var strings = msg.split(" ")
@@ -108,6 +122,59 @@ function onMessageHandler(target, context, msg, self) {
     } else {
       client.say(target, "To use this command please say !!getinfo name");
     }
+  }
+  if (msg.includes("!!stealers")) {
+    let url = 'https://mygeoangelfirespace.city/db/rap_sheet.json';
+    var outputStr = "The biggest stealers are:"
+
+    fetch(url)
+      .then(res => res.json())
+      .then((out) => {
+        // console.log('Checkout this JSON! ', out);
+        var data = out
+
+        var { rap_sheet } = data
+        var usrobj = Object.values(rap_sheet)
+        var userarray = new Array(usrobj);
+        var rodobj = {}
+
+
+        userarray.forEach(item => {
+          item.forEach(obj => {
+            var { user } = obj
+
+            if (user != null) {
+              var current = user
+              if (!(current in rodobj)) {
+                rodobj[current] = 0
+              }
+              rodobj[current] += 1
+            }
+
+          })
+        });
+
+        var limit = 15;
+        var outputobj = {}
+
+        rodobj = sortObj(rodobj);
+
+        Object.entries(rodobj).forEach(([key, value]) => {
+          if (limit > 0) {
+            outputobj[key] = value;
+            outputStr += ` ${key} : ${value} |`
+            limit -= 1
+          }
+
+        });
+
+        console.log(outputStr);
+        client.say(target, outputStr);
+        outputStr = "the biggest stealers are:"
+      })
+      .catch(err => { console.error(err) })
+
+    console.log("tested")
   }
 
   if (msg.startsWith("!!mostliked")) {
@@ -260,6 +327,7 @@ function onMessageHandler(target, context, msg, self) {
     if (msg.includes("!!bot do a buy")) {
       client.say(target, "!buy random");
     }
+
     if (msg.includes("!!richest")) {
       let url = 'https://mygeoangelfirespace.city/db/users.json';
 

@@ -1,1 +1,3 @@
 opts.js
+.env
+node_modules
