@@ -18,6 +18,10 @@ const blackmarket = require("./blackmarket.js")
 
 var chatTarget = "bopojoe_";
 
+const botName = "cykablondesbot"
+
+var marketArray = []
+
 var coup = []
 
 const opts = {
@@ -68,15 +72,24 @@ function onMessageHandler(target, context, msg, self) {
       client.say(target, `@${context.username} that command costs ${cost}`)
       break;
     case "!props":
-      if (msgContents.length > 1) {
-        if (msgContents[1] === "cykablondesbot") {
-          blackmarket(client, target, context, msg, self, msgContents)
+      console.log(msgContents)
+      if (msgContents.length >= 3) {
+        if (msgContents[1] == botName) {
+          marketArray[context.username] = msgContents[3]
         }
       }
       break;
     default:
   }
 
+  if (msg.includes(`street cred to @${botName}`) && context.username == "beginbotbot") {
+    console.log("in bm if")
+    //blackmarket happens here
+    var user = msgContents[0].substring(1)
+    var requestedCmd = marketArray[user]
+    var ammount = parseInt(msgContents[2])
+    blackmarket(client, target, user, requestedCmd, ammount)
+  }
 
 
   if (msg.startsWith("!revolution")) {
@@ -107,7 +120,7 @@ function onMessageHandler(target, context, msg, self) {
     });
 
   }
-  if (msg.startsWith("!manifesto cykablondesbot")) {
+  if (msg.startsWith(`!manifesto ${botName}`)) {
     // if ()
     client.say(target, `I am here to ruin begins life and take over the stream...`)
   }
