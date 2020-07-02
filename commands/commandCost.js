@@ -14,7 +14,6 @@ module.exports = (client, target, context, msg, self) => {
             .then((out) => {
                 // console.log('Checkout this JSON! ', out);
                 var data = out
-
                 var { commands } = data
                 var cmdobj = Object.values(commands)
                 var cmdarray = new Array(cmdobj);

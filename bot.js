@@ -12,9 +12,7 @@ const mostliked = require("./commands/mostLiked.js")
 const richest = require("./commands/richest.js")
 const commandcost = require("./commands/commandCost.js")
 const blackmarket = require("./blackmarket.js")
-
-
-
+const market = require("./commands/market.js")
 
 var chatTarget = "bopojoe_";
 
@@ -55,6 +53,9 @@ function onMessageHandler(target, context, msg, self) {
   var msgContents = msg.split(" ")
 
   switch (msgContents[0]) {
+    case "!!blackmarket":
+      market(client, target, context, msg, self)
+      break;
     case "!!public":
       publicCommands(client, target, context, msg, self)
       break;

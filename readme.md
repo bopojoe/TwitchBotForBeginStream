@@ -12,3 +12,5 @@
     - This command returns the top 5 most liked users in the system (ride or die count)
  - __!!stealers__ 
     -  This command shows the top 5 biggest stealers (who were caught by the system)
+ - __!!blackmarket__
+    -  This command returns the command to use the blackmarket with Cykablondesbot
