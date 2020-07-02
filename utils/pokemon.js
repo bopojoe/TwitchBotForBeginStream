@@ -2,6 +2,23 @@
 
 //Won! diglett - Beating 17 Other People | @hungryed now has access to !bear
 
+
+//beginbotbot: @bopojoe_ YOU WERE WRONG
+
+/*
+if beginbot says //Guess Which Pokemon This Is!!!
+    pokenum = 0
+    pokenum = pokemon(client target pokenum){
+        client.say(target, `!guess ${pokelist[pokenum]}`)
+        return pokenum +1
+    }
+
+    if beginbot says @${botname} YOU WERE WRONG{
+        pokenum = pokemon(client target pokenum){
+            returns pokenum +1
+        }
+    }
+*/
 const pokelist = ['Bulbasaur','Ivysaur','Venusaur','Charmander',
 'Charmeleon','Charizard','Squirtle','Wartortle','Blastoise',
 'Caterpie','Metapod','Butterfree','Weedle','Kakuna','Beedrill',
@@ -22,4 +39,6 @@ const pokelist = ['Bulbasaur','Ivysaur','Venusaur','Charmander',
 ,'Magmar','Pinsir','Tauros','Magikarp','Gyarados','Lapras','Ditto','Eevee','Vaporeon','Jolteon','Flareon','Porygon'
 ,'Omanyte','Omastar','Kabuto','Kabutops','Aerodactyl','Snorlax','Articuno','Zapdos','Moltres','Dratini','Dragonair'
 ,'Dragonite','Mewtwo','Mew']
+
+
 

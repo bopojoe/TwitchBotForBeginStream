@@ -1,4 +1,4 @@
-//require('dotenv').config() //for dev use
+require('dotenv').config() //for dev use
 const tmi = require('tmi.js');
 const fetch = require('node-fetch');
 const exCubeTimes = require('./cubeTimes.json')
@@ -13,6 +13,29 @@ const richest = require("./commands/richest.js")
 const commandcost = require("./commands/commandCost.js")
 const blackmarket = require("./blackmarket.js")
 const market = require("./commands/market.js")
+
+let pokenum = 0;
+
+const pokelist = ['Bulbasaur','Ivysaur','Venusaur','Charmander',
+'Charmeleon','Charizard','Squirtle','Wartortle','Blastoise',
+'Caterpie','Metapod','Butterfree','Weedle','Kakuna','Beedrill',
+'Pidgey','Pidgeotto','Pidgeot','Rattata','Raticate','Spearow','Fearow',
+'Ekans','Arbok','Pikachu','Raichu','Sandshrew','Sandslash','Nidoran-F',
+'Nidorina','Nidoqueen','Nidoran-M','Nidorino','Nidoking','Clefairy','Clefable',
+'Vulpix','Ninetales','Jigglypuff','Wigglytuff','Zubat','Golbat','Oddish','Gloom',
+'Vileplume','Paras','Parasect','Venonat','Venomoth','Diglett','Dugtrio','Meowth',
+'Persian','Psyduck','Golduck','Mankey','Primeape','Growlithe','Arcanine','Poliwag',
+'Poliwhirl','Poliwrath','Abra','Kadabra','Alakazam','Machop','Machoke','Machamp','Bellsprout',
+'Weepinbell','Victreebel','Tentacool','Tentacruel','Geodude','Graveler','Golem','Ponyta','Rapidash',
+'Slowpoke','Slowbro','Magnemite','Magneton','Farfetchd',
+'Doduo','Dodrio','Seel','Dewgong','Grimer','Muk','Shellder',
+'Cloyster','Gastly','Haunter','Gengar','Onix','Drowzee','Hypno',
+'Krabby','Kingler','Voltorb','Electrode','Exeggcute','Exeggutor','Cubone',
+'Marowak','Hitmonlee','Hitmonchan','Lickitung','Koffing','Weezing','Rhyhorn','Rhydon','Chansey','Tangela'
+,'Kangaskhan','Horsea','Seadra','Goldeen','Seaking','Staryu','Starmie','mr.mime','Scyther','Jynx','Electabuzz'
+,'Magmar','Pinsir','Tauros','Magikarp','Gyarados','Lapras','Ditto','Eevee','Vaporeon','Jolteon','Flareon','Porygon'
+,'Omanyte','Omastar','Kabuto','Kabutops','Aerodactyl','Snorlax','Articuno','Zapdos','Moltres','Dratini','Dragonair'
+,'Dragonite','Mewtwo','Mew']
 
 var chatTarget = "bopojoe_";
 
@@ -81,6 +104,24 @@ function onMessageHandler(target, context, msg, self) {
       }
       break;
     default:
+  }
+  //Other People
+
+  if (msg.includes(`other people`) && context.username == "beginbotbot") {
+    pokenum = 0
+    client.say(target, `I'll win next time`)
+    
+  }
+
+  if (msg.includes(`guess which pokemon this is!!!`) && context.username == "beginbotbot") {
+    pokenum = 0
+    client.say(target, `!guess ${pokelist[pokenum]}`)
+    pokenum += 1
+  }
+
+  if (msg.includes(`@${botname} you were wrong`) && context.username == "beginbotbot") {
+    client.say(target, `!guess ${pokelist[pokenum]}`)
+    pokenum += 1
   }
 
   if (msg.includes(`street cred to @${botName}`) && context.username == "beginbotbot") {
