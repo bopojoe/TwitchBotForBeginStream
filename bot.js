@@ -13,6 +13,7 @@ const richest = require("./commands/richest.js")
 const commandcost = require("./commands/commandCost.js")
 const blackmarket = require("./blackmarket.js")
 const market = require("./commands/market.js")
+const wait = require("./utils/wait")
 
 var chatTarget = "bopojoe_";
 
@@ -85,7 +86,11 @@ function onMessageHandler(target, context, msg, self) {
 
   if (msg.includes(`CoolCat`) && context.username == "beginbotbot") {
     client.say(target, "Free money")
+    wait(7000)
+    client.say(target, "!props")
   }
+
+
 
   if (msg.includes(`street cred to @${botName}`) && context.username == "beginbotbot") {
     console.log("in bm if")
@@ -282,6 +287,7 @@ function onConnectedHandler(addr, port) {
 
 
 const readline = require('readline');
+const wait = require('./utils/wait');
 
 
 const rl = readline.createInterface({
