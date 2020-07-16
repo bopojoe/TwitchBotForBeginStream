@@ -98,7 +98,11 @@ function onMessageHandler(target, context, msg, self) {
     var user = msgContents[0].substring(1)
     var requestedCmd = marketArray[user]
     var ammount = parseInt(msgContents[2])
-    blackmarket(client, target, user, requestedCmd, ammount)
+    if (!requestedCmd) {
+      client.say(target, "thanks for the props")
+    } else {
+      blackmarket(client, target, user, requestedCmd, ammount)
+    }
   }
 
 
