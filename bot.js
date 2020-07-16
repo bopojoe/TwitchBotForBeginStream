@@ -84,7 +84,7 @@ function onMessageHandler(target, context, msg, self) {
     default:
   }
 
-  if (msg.startswith(`coolcat`) && context.username == "beginbotbot") {
+  if (msg.startsWith(`coolcat`) && context.username == "beginbotbot") {
     client.say(target, "Free money")
     wait(7000)
     client.say(target, "!props")
