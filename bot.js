@@ -291,7 +291,6 @@ function onConnectedHandler(addr, port) {
 
 
 const readline = require('readline');
-const wait = require('./utils/wait');
 
 
 const rl = readline.createInterface({
