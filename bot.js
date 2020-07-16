@@ -83,6 +83,10 @@ function onMessageHandler(target, context, msg, self) {
     default:
   }
 
+  if (msg.includes(`CoolCat`) && context.username == "beginbotbot") {
+    client.say(target, "Free money")
+  }
+
   if (msg.includes(`street cred to @${botName}`) && context.username == "beginbotbot") {
     console.log("in bm if")
     //blackmarket happens here
