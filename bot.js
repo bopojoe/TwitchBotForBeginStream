@@ -10,6 +10,7 @@ const stealers = require("./commands/stealers.js")
 const getinfo = require("./commands/getInfo.js")
 const mostliked = require("./commands/mostLiked.js")
 const richest = require("./commands/richest.js")
+const reserve = require("./commands/fed.js")
 const notorious = require("./commands/notoriety.js")
 const commandcost = require("./commands/commandCost.js")
 const blackmarket = require("./blackmarket.js")
@@ -204,6 +205,9 @@ function onMessageHandler(target, context, msg, self) {
 
     if (msg.includes("!!richest")) {
       richest(client, target, context, msg, self)
+    }
+    if (msg.includes("!!reserve")) {
+      reserve(client, target, context, msg, self)
     }
     if (msg.includes("!!notorious")) {
       notorious(client, target, context, msg, self)
