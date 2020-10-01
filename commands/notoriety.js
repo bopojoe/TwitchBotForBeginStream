@@ -18,8 +18,8 @@ module.exports = (client, target, context, msg, self) => {
                 var { name } = item;
 
                 item.forEach(obj => {
-                    var { name, cool_points, notoriety } = obj
-                    if (cool_points > points) {
+                    var { name, notoriety } = obj
+                    if (notoriety > points) {
                         highest = name;
                         points = notoriety;
                     }
