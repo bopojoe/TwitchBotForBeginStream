@@ -9,7 +9,7 @@ module.exports = (client, target, context, msg, self) => {
             var data = out
 
             var { the_fed } = data
-            var usrobj = Object.values(users)
+            var usrobj = Object.values(the_fed)
             var userarray = new Array(usrobj);
             var reserveVal = ""
             var points = 0
