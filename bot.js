@@ -6,6 +6,7 @@ var cubeTimes = exCubeTimes.times || [];
 const publicCommands = require("./commands/publicCommands.js")
 var fs = require('fs');
 const sortObj = require("./utils/sortobj.js")
+const otherbots = require("./botlist.json")
 const streamlords = require("./commands/streamlords.js")
 const stealers = require("./commands/stealers.js")
 const getinfo = require("./commands/getInfo.js")
@@ -52,8 +53,12 @@ client.connect();
 
 // Called every time a message comes in
 function onMessageHandler(target, context, msg, self) {
+  var { username, mod, } = context
   msg = msg.toLowerCase()
   if (self) { return; } // Ignore messages from the bot
+  if(otherbots.includes(username)){
+    client.say(target, `@${username} I am not here to be used by other bots...`)
+  }
   var msgContents = msg.split(" ")
 
   switch (msgContents[0]) {
@@ -142,7 +147,7 @@ function onMessageHandler(target, context, msg, self) {
  
   // Remove whitespace from chat message
   var commandName = msg.startsWith("!!cs");
-  var { username, mod, } = context
+  
 
   if (commandName && username === "bopojoe_") {
     chatTarget = target;
