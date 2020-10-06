@@ -8,7 +8,6 @@ module.exports = (client, target, context, msg, self) => {
     fetch(url)
         .then(res => res.json())
         .then((out) => {
-            // console.log('Checkout this JSON! ', out);
             var data = out
 
             var { rap_sheet } = data
@@ -46,7 +45,6 @@ module.exports = (client, target, context, msg, self) => {
 
             });
 
-            console.log(outputStr);
             client.say(target, outputStr);
             outputStr = "The biggest stealers are:"
         })
