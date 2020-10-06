@@ -67,7 +67,7 @@ module.exports = (client, target, context, msg, self) => {
                                     if (vote == "revolution") {
                                         standing = "Revolutionary";
                                     }
-                                    else { standing = "Peace Kepper" }
+                                    else { standing = "Peace Keeper" }
                                 }
                             })
                         });
