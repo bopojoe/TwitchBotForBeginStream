@@ -58,6 +58,7 @@ function onMessageHandler(target, context, msg, self) {
   if (self) { return; } // Ignore messages from the bot
   if(otherbots.bots.includes(username)){
     client.say(target, `@${username} I am not here to be used by other bots...`)
+    return
   }
   var msgContents = msg.split(" ")
 
