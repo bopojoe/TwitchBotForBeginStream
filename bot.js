@@ -6,6 +6,7 @@ var cubeTimes = exCubeTimes.times || [];
 const publicCommands = require("./commands/publicCommands.js")
 var fs = require('fs');
 const sortObj = require("./utils/sortobj.js")
+const streamlords = require("./commands/streamlords.js")
 const stealers = require("./commands/stealers.js")
 const getinfo = require("./commands/getInfo.js")
 const mostliked = require("./commands/mostLiked.js")
@@ -76,7 +77,6 @@ function onMessageHandler(target, context, msg, self) {
       client.say(target, `@${context.username} that command costs ${cost}`)
       break;
     case "!props":
-      console.log(msgContents)
       if (msgContents.length >= 3) {
         if (msgContents[1] == botName) {
           marketArray[context.username] = msgContents[3]
@@ -95,7 +95,6 @@ function onMessageHandler(target, context, msg, self) {
 
 
   if (msg.includes(`street cred to @${botName}`) && context.username == "beginbotbot") {
-    console.log("in bm if")
     //blackmarket happens here
     var user = msgContents[0].substring(1)
     var requestedCmd = marketArray[user]
@@ -137,31 +136,12 @@ function onMessageHandler(target, context, msg, self) {
 
   }
   if (msg.startsWith(`!manifesto ${botName}`)) {
-    // if ()
     client.say(target, `I am here to ruin begins life and take over the stream...`)
   }
 
-  if (msg.startsWith("!tstcmd")) {
-    var { badges } = context;
-
-
-    if (true) {
-      console.log("worked")
-    }
-    else {
-      console.log("Pleb")
-    }
-
-
-
-    // client.say(target, `I am here to ruin begins life and take over the stream...`)
-  }
-
-
-
-
+ 
   // Remove whitespace from chat message
-  var commandName = msg.startsWith("!!cykasay");
+  var commandName = msg.startsWith("!!cs");
   var { username, mod, } = context
 
   if (commandName && username === "bopojoe_") {
@@ -171,28 +151,19 @@ function onMessageHandler(target, context, msg, self) {
     for (i = 1; i < newMsg.length; i++) {
       text += newMsg[i] + " "
     }
-    console.log(text)
     client.say(target, text);
-    console.log(target);
-    console.log(`* Executed ${commandName} command`);
   } else if (username === "jr_bots" && msg.includes("!props bopojoe_")) {
 
   } else if (username === "distributedcache" && msg.includes("!props bopojoe_")) {
     client.say(target, "!props cachesking");
   } else if (commandName && username != "bopojoe_") {
-    console.log(target)
     client.say(target, "I only have one master...");
-    console.log(`* Executed ${commandName} command`);
   } else if (username === "bopojoe_") {
     var message = msg.split(" ")
-    console.log(message[0])
     if (msg.startsWith("!!pvtmsg")) {
       sendMessage(target, `/w ${username} testmsg`)
     }
 
-    if (msg.startsWith("!!dirt")) {
-      console.log(coup);
-    }
     if (msg.startsWith("!!bot")) {
       client.say(target, "!props bopojoe_");
     }
@@ -212,14 +183,15 @@ function onMessageHandler(target, context, msg, self) {
     if (msg.includes("!!notorious")) {
       notorious(client, target, context, msg, self)
     }
-    notorious
+    if (msg.includes("!!streamlords")) {
+      streamlords(client, target, context, msg, self)
+    }
     if (msg.includes("!!bopojoe")) {
       let url = 'https://mygeoangelfirespace.city/db/users.json';
 
       fetch(url)
         .then(res => res.json())
         .then((out) => {
-          // console.log('Checkout this JSON! ', out);
           var data = out
 
           var { users } = data
@@ -243,7 +215,6 @@ function onMessageHandler(target, context, msg, self) {
           fetch("https://mygeoangelfirespace.city/db/commands.json")
             .then(res => res.json())
             .then((out) => {
-              // console.log('Checkout this JSON! ', out);
               var data = out
 
               var { commands } = data
@@ -255,24 +226,19 @@ function onMessageHandler(target, context, msg, self) {
                 item.forEach(obj => {
                   var { permitted_users } = obj
                   if (permitted_users.includes("bopojoe_")) {
-                    console.log("+1")
                     sounds += 1;
                   }
                 })
               });
-              console.log("tested")
-
               var val = `${highest}: coolpoints: ${points}| sounds: ${sounds}| Street Cred: ${cred}`
               client.say(target, val);
             })
             .catch(err => { console.error(err) })
-          // client.say(target, "tested");
+   
 
 
         })
         .catch(err => { console.error(err) })
-      // client.say(target, "tested");
-      console.log("tested")
     }
 
     if (msg.includes("are you real")) {
@@ -287,10 +253,7 @@ function onMessageHandler(target, context, msg, self) {
     if (msg.includes("!props whatsinmyopsec 4")) {
       client.say(target, "!props whatsinmyopsec");
     }
-
-    console.log(msg);
   } else {
-    console.log(`* Unknown command ${commandName}`);
   }
 }
 // Called every time the bot connects to Twitch chat
@@ -308,6 +271,16 @@ const rl = readline.createInterface({
 });
 
 rl.on('line', (input) => {
+  if (input.startsWith("!!pvt")) {
+    var sentence = input.split(" ")
+    chatTarget = sentence[1];
+    var text = ""
+    for (i = 1; i < sentence.length; i++) {
+      text += sentence[i] + " "
+    }
+    client.whisper(`${chatTarget}.w`, `${text}`);
+  }
+
   if (input.startsWith("!!join")) {
     var sentence = input.split(" ")
     chatTarget = sentence[1];

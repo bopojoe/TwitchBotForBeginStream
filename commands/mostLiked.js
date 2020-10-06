@@ -8,7 +8,6 @@ module.exports = (client, target, context, msg, self) => {
     fetch(url)
         .then(res => res.json())
         .then((out) => {
-            // console.log('Checkout this JSON! ', out);
             var data = out
 
             var { users } = data
