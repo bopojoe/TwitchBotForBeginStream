@@ -33,8 +33,8 @@ module.exports = (client, target, context, msg, self) => {
 
             var limit = 5;
             var outputobj = {}
-
-            rodobj = sortObj(rodobj, 50);
+//badly hardcoded valy causing an issue now that a user has a higher conviction rate
+            rodobj = sortObj(rodobj, 200);
 
             Object.entries(rodobj).forEach(([key, value]) => {
                 if (limit > 0) {
