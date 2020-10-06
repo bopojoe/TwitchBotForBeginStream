@@ -20,7 +20,7 @@ module.exports = (client, target, context, msg, self) => {
                 item.forEach(obj => {
                     var { user } = obj
 
-                    if (user != null) {
+                    if (user != (null || "800807") {
                         var current = user
                         if (!(current in rodobj)) {
                             rodobj[current] = 0
