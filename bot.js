@@ -56,7 +56,7 @@ function onMessageHandler(target, context, msg, self) {
   var { username, mod, } = context
   msg = msg.toLowerCase()
   if (self) { return; } // Ignore messages from the bot
-  if(otherbots.includes(username)){
+  if(otherbots.bots.includes(username)){
     client.say(target, `@${username} I am not here to be used by other bots...`)
   }
   var msgContents = msg.split(" ")
