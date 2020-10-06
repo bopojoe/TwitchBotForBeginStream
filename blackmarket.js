@@ -30,11 +30,8 @@ module.exports = (client, target, user, requestedCmd, ammount) => {
                     }
                 })
             });
-            console.log("before return in cmdcost")
             if (cmdcost <= ammount) {
-                console.log("insile if")
                 client.say(target, `!buy ${requestedCmd}`)
-                console.log("first wait")
                 wait(7000);
                 client.say(target, `!transfer ${user} ${requestedCmd}`)
                 console.log("2nd wait wait")
