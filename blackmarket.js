@@ -23,10 +23,8 @@ module.exports = (client, target, user, requestedCmd, ammount) => {
             cmdarray.forEach(item => {
                 item.forEach(obj => {
                     var { name, cost } = obj
-
                     if (name == requestedCmd) {
                         cmdcost = cost;
-                        console.log(`cost is ${cost}`)
                     }
                 })
             });
