@@ -51,36 +51,42 @@ client.on('connected', onConnectedHandler);
 // Connect to Twitch:
 client.connect();
 
+function check(name, target){
+  if(otherbots.bots.includes(name)){
+    client.say(target, `@${name} I am not here to be used by other bots...`)
+    return false
+  }else{
+    return true
+  }
+
+}
+
+
 // Called every time a message comes in
 function onMessageHandler(target, context, msg, self) {
   var { username, mod, } = context
   msg = msg.toLowerCase()
   if (self) { return; } // Ignore messages from the bot
-  if(otherbots.bots.includes(username)){
-    client.say(target, `@${username} I am not here to be used by other bots...`)
-    return
-  }
   var msgContents = msg.split(" ")
 
   switch (msgContents[0]) {
     case "!!blackmarket":
-      market(client, target, context, msg, self)
+      if(check(username,target)){market(client, target, context, msg, self)}
       break;
     case "!!public":
-      publicCommands(client, target, context, msg, self)
+      if(check(username,target)){publicCommands(client, target, context, msg, self)}
       break;
     case "!!getinfo":
-      getinfo(client, target, context, msg, self)
+      if(check(username,target)){getinfo(client, target, context, msg, self)}
       break;
     case "!!stealers":
-      stealers(client, target, context, msg, self)
+      if(check(username,target)){stealers(client, target, context, msg, self)}
       break;
     case "!!mostliked":
-      mostliked(client, target, context, msg, self)
+      if(check(username,target)){mostliked(client, target, context, msg, self)}
       break;
     case "!!commandcost":
-      var cost = commandcost(client, target, context, msg, self)
-      client.say(target, `@${context.username} that command costs ${cost}`)
+      if(check(username,target)){commandcost(client, target, context, msg, self)}
       break;
     case "!props":
       if (msgContents.length >= 3) {
@@ -89,6 +95,16 @@ function onMessageHandler(target, context, msg, self) {
         }
       }
       break;
+    case "!!richest":
+      if(check(username,target)){richest(client, target, context, msg, self)}
+      break;
+    case "!!notorious":
+      if(check(username,target)){notorious(client, target, context, msg, self)}
+      break;
+    case "!!streamlords":
+      if(check(username,target)){streamlords(client, target, context, msg, self)}
+      break;
+     
     default:
   }
 
@@ -146,7 +162,6 @@ function onMessageHandler(target, context, msg, self) {
   }
 
  
-  // Remove whitespace from chat message
   var commandName = msg.startsWith("!!cs");
   
 
@@ -178,19 +193,6 @@ function onMessageHandler(target, context, msg, self) {
     }
     if (msg.includes("!!bot do a buy")) {
       client.say(target, "!buy random");
-    }
-
-    if (msg.includes("!!richest")) {
-      richest(client, target, context, msg, self)
-    }
-    if (msg.includes("!!reserve")) {
-      reserve(client, target, context, msg, self)
-    }
-    if (msg.includes("!!notorious")) {
-      notorious(client, target, context, msg, self)
-    }
-    if (msg.includes("!!streamlords")) {
-      streamlords(client, target, context, msg, self)
     }
     if (msg.includes("!!bopojoe")) {
       let url = 'https://mygeoangelfirespace.city/db/users.json';
