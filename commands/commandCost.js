@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 module.exports = (client, target, context, msg, self) => {
-
+    var cmdcost = 0
     var strings = msg.split(" ")
     if (strings.length > 1) {
         var requestedcmd = strings[1].toLowerCase()
@@ -17,7 +17,7 @@ module.exports = (client, target, context, msg, self) => {
                 var { commands } = data
                 var cmdobj = Object.values(commands)
                 var cmdarray = new Array(cmdobj);
-                var cmdcost = 0
+                
 
 
                 cmdarray.forEach(item => {
@@ -30,9 +30,8 @@ module.exports = (client, target, context, msg, self) => {
                         }
                     })
                 });
-                outputtext = `@${context.username} the command ${requestedcmd} costs ${cmdcost}`
-                console.log("before return in cmdcost")
-                return cmdcost
+                
+                client.say(target, `@${context.username} the command ${requestedcmd} costs ${cmdcost}`)
 
             })
             .catch(err => { console.error(err) })
