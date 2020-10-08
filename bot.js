@@ -162,7 +162,7 @@ function onMessageHandler(target, context, msg, self) {
   }
 
  
-  var commandName = msg.startsWith("!!cs");
+  var commandName = msg.startsWith("!!csay");
   
 
   if (commandName && username === "bopojoe_") {
