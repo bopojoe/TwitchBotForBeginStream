@@ -1,7 +1,4 @@
 module.exports = (ms) => {
-    var start = new Date().getTime();
-    var end = start;
-    while (end < start + ms) {
-        end = new Date().getTime();
-    }
+    const end = Date.now() + ms;
+    while (end > Date.now()) {}
 }
